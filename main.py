@@ -4,11 +4,13 @@ I used the ttk module from the tkinter library because the buttons look way clea
 I also impremented some simple error handling, so overall, there should not be any errors, 
 expect for the ZeroDivision an error on line 104 if the duration is 0 (infinite). (Doesn't crash the program though).
 Works by counting how many clicks the user did on the click button, and divide it by the duration.
-Note that the duration should be in seconds, and if the duration is zero, the test will be infinite (this is on purpose).
+Note that the duration should be in seconds, the decimal point should be a point and not a comma,
+and if the duration is zero, the test will be infinite (this is on purpose). You can also ignore the zero at the start, for example: 01 -> 1; 0.1 -> .1
 To end and infinite test, simply click the "End test" button on the bottom center of the window.
 It also has labels to show the user the current click count and the elapsed time.
 Also note than sometimes, the time label may show a slightly incorrect number when the test finished (i. e.: 5 seconds may be shown as 4.99).
-I am also thinking of adding the posibility of inserting a float as duration, instead of only integers.
+
+OK, please don't set negative numbers or zero as update delay, it's not a bug, it's common sense.
 
 Intructions:
     1. Insert the desired duration in seconds into the input.
@@ -21,9 +23,11 @@ Made by pancracium @ github (https://github.com/pancracium).
 """
 
 import time
+import pygame
 import tkinter as tk
 import tkinter.messagebox as msgbox
 from tkinter import ttk
+pygame.init()
 
 class CPS_Test:
     def __init__(self):
@@ -38,12 +42,14 @@ class CPS_Test:
         self.font = ("Roboto", 11, "bold")
 
         #Declare some necessary variables
-        self.clicks = 0
+        self.click_count = 0
         self.start_time = None
         self.end_time = None
         self.update_delay = 10
+        self.click_sound = pygame.mixer.Sound("click.wav")
 
         #Call the create_widgets() and update() methods
+
         self.create_widgets()
         self.update()
     
@@ -97,21 +103,31 @@ class CPS_Test:
         #Get the duration the user submitted
         duration = self.entry_duration.get()
 
-        #Check if it's a digit
-        if duration.isdigit():
-            #Check if it's zero. If so, the test will be infinite
-            if duration == "0":
+        try:
+            #Convert the duration (string) into a float (number with decimal point)
+            self.duration = float(duration)
+
+            #Show the user an error message if the number is negative
+            if self.duration < 0:
+                raise ValueError
+            
+            #Tell the user the test will be infinite if the duration is zero
+            if self.duration == 0:
                 msgbox.showinfo(title="Infinite clicking test", message="Note that if you insert zero as duration, the test will be infinite, giving no CPS results.")
-            #Start the test
-            self.duration = int(duration)
+
+            #Convert the duration to a number, tell the user the test has started and change some buttons' states and add a click to the click count
             self.label_instructions.config(text="Click as fast as you can!")
             self.entry_duration.config(state=tk.DISABLED)
             self.button_start.config(state=tk.DISABLED)
             self.button_click.config(state=tk.NORMAL)
             self.button_end.config(state=tk.NORMAL)
-        else:
-            #Else, show the user an error message
-            msgbox.showerror(title="Error", message="Please insert a valid integer.")
+            self.click_count = 1
+
+        except (ValueError, TypeError):
+            #Show the user an error message if the inserted duration is not a valid
+            message = "Please insert a positive number (it can also be a float) as duration, i. e.: 10, 5.2, 0.5, 100, 0, ...\n"
+            message += "Also note you should use a point (.) and not a comma (,) as decimal point."
+            msgbox.showerror(title="Error", message=message)
             self.entry_duration.delete(0, tk.END)
         
     def click(self):
@@ -121,8 +137,9 @@ class CPS_Test:
             self.start_time = time.time()
         else:
             #Add a click to the click count and update the label
-            self.clicks += 1
-            self.label_clicks.config(text="Clicks: {}".format(self.clicks))
+            self.click_count += 1
+            self.label_clicks.config(text="Clicks: {}".format(self.click_count))
+            self.click_sound.play()
         
     def update(self):
         """Update the program."""
@@ -130,7 +147,7 @@ class CPS_Test:
         if self.start_time and not self.end_time and time.time() - self.start_time >= self.duration:
             self.end_time = time.time()
             #Calculate the CPS
-            cps = self.clicks / self.duration
+            cps = self.click_count / self.duration
             #Show the CPS to the user
             self.label_instructions.config(text="Your CPS is: {:.2f}".format(cps))
             self.button_click.config(text="{:.2f} CPS".format(cps))
@@ -161,7 +178,7 @@ class CPS_Test:
         self.label_timer.config(text="Time: 0.00")
         
         #Reset all variables
-        self.clicks = 0
+        self.click_count = 0
         self.start_time = None
         self.end_time = None
     

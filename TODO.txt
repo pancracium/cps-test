@@ -1,0 +1,3 @@
+Add a tutorial for the user to help him learn new clicking methods or improve already known ones.
+
+Implement high scores or achievements for reaching certain CPS.

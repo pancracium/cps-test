@@ -1,0 +1,15 @@
+v1.0:
+
+- Published the program.
+
+v1.1:
+
+- Now floats (numbers with floating point) can also be used a duration for the test.
+
+- Added two new files: CHANGELOG.txt and TODO.txt
+
+- Added a click sound (therefore also added the click.wav file).
+
+- Made sure the inserted duration value is a positive number.
+
+- Changed the name of the self.clicks variable to self.click_count, because ChadGPT said it wasn't clear enough.

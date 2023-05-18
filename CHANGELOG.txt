@@ -12,4 +12,17 @@ v1.1:
 
 - Made sure the inserted duration value is a positive number.
 
-- Changed the name of the self.clicks variable to self.click_count, because ChadGPT said it wasn't clear enough.
+- Changed the name of the self.clicks variable to self.click_count, because ChadGPT said it wasn't clear enough. (I only use it to ask how to improve my code and so).
+
+v1.2:
+
+- Added awards, which you can get by reaching certain amount of CPS: Normal clicker, fast clicker, jitter clicker, butterfly clicker, real butterfly clicker,
+drag clicker, bolt clicker and autoclicker.
+
+- Added the missing docstring and comments to the change_update_delay() method.
+
+- Changed the description to a clearer one, adding empty lines, bullet points and so.
+
+- Added more thing to do in the TODO.txt file.
+
+- Added the awards.json file, to save the gained awards and load then later.

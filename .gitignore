@@ -1,0 +1,11 @@
+#This file ignores the files or file types below
+
+#These folders auto-generate sometimes, and I don't want them to be uploaded to github
+/__pycache__
+/.vscode
+
+#These files are also auto-generated, but when I convert the program to an executable file
+/dist
+/build
+*.spec
+*.exe

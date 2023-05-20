@@ -1,7 +1,3 @@
 - Add a tutorial for the user to help him learn new clicking methods or improve already known ones.
 
-- Implement a high score feature to track and display the highest CPS achieved by the user.
-
-- Add custom click sounds, it can be by selecting some predefined ones or by uploading a custom mp3 or wav file.
-
 - Add a menu to customize the appareance of the app, such as background color, font style, etc.

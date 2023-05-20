@@ -26,3 +26,17 @@ drag clicker, bolt clicker and autoclicker.
 - Added more thing to do in the TODO.txt file.
 
 - Added the awards.json file, to save the gained awards and load then later.
+
+v1.3:
+
+- Added a high score
+
+- Changed the name of the awards.json file to config.json, because now it doesn't only store awards.
+
+- Now the config.json file stores awards, highest score, click sound and update_delay
+
+- Implemented a button to upload a custom click sound.
+
+- Also changed the name of save_awards() and load_awards() to save_config() and load_config().
+
+- Added the "close" (boolean) parameter to the save_config() method. If it's True, when the method is called the program will be closed.
